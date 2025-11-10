@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TribalLink - Page Title</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+
+<body>
+    <!-- Frontend by Himanshu Choudhary -->
+    <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
+
+    <header>
+        <h1>TribalLink</h1>
+        <p>Smart Digital Network for Tribal Empowerment</p>
+    </header>
+
+    <!-- Flask dynamic links -->
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
+        <li><a href="{{ url_for('chatbot') }}">AgriHelp Bot</a></li>
+    </ul>
+</nav>
+
+
+    <section class="intro">
+        <h2>Welcome!</h2>
+        <p>This platform connects tribal artisans, farmers, and communities with digital tools to grow and share their work.</p>
+    </section>
+
+    <footer>
+        <p>Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
+    </footer>
+</body>
+</html>

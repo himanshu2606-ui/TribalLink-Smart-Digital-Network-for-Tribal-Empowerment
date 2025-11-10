@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TribalLink - Page Title</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+
+<body>
+    <!-- Frontend by Himanshu Choudhary -->
+    <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
+
+    <header>
+        <h1>AgriHelp Bot</h1>
+        <!-- Flask dynamic links -->
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
+        <li><a href="{{ url_for('chatbot') }}">AgriHelp Bot</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <section class="chatbot-section">
+        <div class="chat-box" id="chat-box">
+            <p><em>Welcome! Type your query about tribal farming or products.</em></p>
+        </div>
+        <input type="text" id="user-input" placeholder="Type here...">
+        <button onclick="sendMessage()">Send</button>
+    </section>
+
+    <script src="app.js"></script>

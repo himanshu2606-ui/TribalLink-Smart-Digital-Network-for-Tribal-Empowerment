@@ -1,0 +1,33 @@
+==========================================
+           IDEA TRIBE – 2025
+      Project: TribalLink Demo Preview
+==========================================
+
+Developed by:
+Team Name: TechTribe
+Institute: Pemiya Rishikesh Institute of Technology
+
+Team Members:
+1. Himanshu Choudhary – Project Lead & Backend Developer
+2. Shekhar Kumar – Presentation & UI Design
+3. Ayush Mandal – Documentation & Testing
+4. Ankit Kumar Gupta – Content & Idea Support
+5. Pradeep Kumar – Research & Coordination
+
+Special Thanks:
+- Jharkhand University of Technology (JUT), Ranchi
+- IDEA TRIBE – 2025 Organizing Committee
+- Faculty Mentors & Coordinators
+
+Tools & Technologies Used:
+- HTML, CSS, JavaScript
+- Python (Flask Framework)
+- VS Code for Development
+- Google Chrome for Testing
+
+Project Theme:
+Smart Digital Network for Tribal Empowerment
+
+------------------------------------------
+Created by Team TechTribe | November 2025
+------------------------------------------

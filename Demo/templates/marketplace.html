@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TribalLink - Page Title</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+
+<body>
+    <!-- Frontend by Himanshu Choudhary -->
+    <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
+
+    <header>
+        <h1>TribalLink Marketplace</h1>
+        <!-- Flask dynamic links -->
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
+        <li><a href="{{ url_for('chatbot') }}">AgriHelp Bot</a></li>
+    </ul>
+</nav>
+
+    </header>
+
+    <section class="products">
+        <h2>Sample Tribal Products</h2>
+        <div class="product-card">
+            <h3>Handmade Bamboo Basket</h3>
+            <p>Price: ₹250</p>
+        </div>
+        <div class="product-card">
+            <h3>Tribal Beaded Necklace</h3>
+            <p>Price: ₹400</p>
+        </div>
+        <div class="product-card">
+            <h3>Clay Pottery</h3>
+            <p>Price: ₹300</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
+    </footer>
+</body>
+</html>
