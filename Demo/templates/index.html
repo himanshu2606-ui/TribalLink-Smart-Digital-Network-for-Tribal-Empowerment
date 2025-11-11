@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TribalLink - Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TribalLink - Smart Digital Network for Tribal Empowerment</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
     <!-- JS -->
     <script src="{{ url_for('static', filename='app.js') }}" defer></script>
@@ -16,27 +17,83 @@
     <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
 
     <header>
-        <h1>TribalLink</h1>
+        <h1>🌍 TribalLink</h1>
         <p>Smart Digital Network for Tribal Empowerment</p>
+        <!-- Flask dynamic links -->
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">🏠 Home</a></li>
+                <li><a href="{{ url_for('marketplace') }}">🛍️ Marketplace</a></li>
+                <li><a href="{{ url_for('chatbot') }}">🤖 AgriHelp Bot</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Flask dynamic links -->
-<nav>
-    <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
-        <li><a href="{{ url_for('chatbot') }}">AgriHelp Bot</a></li>
-    </ul>
-</nav>
-
-
     <section class="intro">
-        <h2>Welcome!</h2>
-        <p>This platform connects tribal artisans, farmers, and communities with digital tools to grow and share their work.</p>
+        <h2>✨ Welcome to TribalLink!</h2>
+        <p>
+            TribalLink is a digital platform designed to <strong>connect and empower tribal communities</strong> 
+            through technology. We provide a space for artisans, farmers, and entrepreneurs to showcase their 
+            authentic products, access learning resources, and communicate with the wider community.
+        </p>
+    </section>
+
+    <section>
+        <h2>🎯 Our Features</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: #4CAF50;">🛍️ Marketplace</h3>
+                <p>Explore and purchase authentic tribal products directly from artisans and farmers. 
+                Support local communities while getting quality handmade items.</p>
+                <a href="{{ url_for('marketplace') }}" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                    Visit Marketplace →
+                </a>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: #4CAF50;">🤖 AgriHelp Bot</h3>
+                <p>Get instant assistance for farming techniques, crop advice, and product information. 
+                Our AI bot provides quick, practical guidance for tribal farmers and artisans.</p>
+                <a href="{{ url_for('chatbot') }}" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                    Chat with Bot →
+                </a>
+            </div>
+
+            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <h3 style="color: #4CAF50;">🌱 Learn & Grow</h3>
+                <p>Access resources on sustainable farming, traditional crafts, and digital skills. 
+                Empower yourself and your community with knowledge and technology.</p>
+                <a href="{{ url_for('chatbot') }}" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background: #4CAF50; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                    Ask Questions →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>📊 Quick Stats</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center;">
+            <div style="background: #4CAF50; color: white; padding: 20px; border-radius: 8px;">
+                <h3 style="font-size: 2em; margin: 0;">5+</h3>
+                <p>Product Categories</p>
+            </div>
+            <div style="background: #4CAF50; color: white; padding: 20px; border-radius: 8px;">
+                <h3 style="font-size: 2em; margin: 0;">100+</h3>
+                <p>Tribal Artisans</p>
+            </div>
+            <div style="background: #4CAF50; color: white; padding: 20px; border-radius: 8px;">
+                <h3 style="font-size: 2em; margin: 0;">24/7</h3>
+                <p>Bot Support</p>
+            </div>
+            <div style="background: #4CAF50; color: white; padding: 20px; border-radius: 8px;">
+                <h3 style="font-size: 2em; margin: 0;">50K+</h3>
+                <p>Monthly Visitors</p>
+            </div>
+        </div>
     </section>
 
     <footer>
-        <p>Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
+        <p>✨ Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
     </footer>
 </body>
 </html>

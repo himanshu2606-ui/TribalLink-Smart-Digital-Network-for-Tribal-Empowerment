@@ -2,10 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TribalLink - Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TribalLink - Marketplace</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
     <!-- JS -->
     <script src="{{ url_for('static', filename='app.js') }}" defer></script>
@@ -16,36 +17,37 @@
     <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
 
     <header>
-        <h1>TribalLink Marketplace</h1>
+        <h1>🛍️ TribalLink Marketplace</h1>
+        <p>Authentic Tribal Products & Crafts</p>
         <!-- Flask dynamic links -->
-<nav>
-    <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
-        <li><a href="{{ url_for('chatbot') }}">AgriHelp Bot</a></li>
-    </ul>
-</nav>
-
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">🏠 Home</a></li>
+                <li><a href="{{ url_for('marketplace') }}">🛍️ Marketplace</a></li>
+                <li><a href="{{ url_for('chatbot') }}">🤖 AgriHelp Bot</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section class="products">
-        <h2>Sample Tribal Products</h2>
-        <div class="product-card">
-            <h3>Handmade Bamboo Basket</h3>
-            <p>Price: ₹250</p>
+    <section>
+        <h2>📦 Featured Products</h2>
+        
+        <div style="margin-bottom: 20px; text-align: center;">
+            <button onclick="loadProducts()" style="margin: 5px;">All Products</button>
+            <button onclick="loadProducts('Crafts')" style="margin: 5px;">🎨 Crafts</button>
+            <button onclick="loadProducts('Jewelry')" style="margin: 5px;">💍 Jewelry</button>
+            <button onclick="loadProducts('Pottery')" style="margin: 5px;">🏺 Pottery</button>
+            <button onclick="loadProducts('Agriculture')" style="margin: 5px;">🌾 Agriculture</button>
+            <button onclick="loadProducts('Furniture')" style="margin: 5px;">🪑 Furniture</button>
         </div>
-        <div class="product-card">
-            <h3>Tribal Beaded Necklace</h3>
-            <p>Price: ₹400</p>
-        </div>
-        <div class="product-card">
-            <h3>Clay Pottery</h3>
-            <p>Price: ₹300</p>
+
+        <div class="products">
+            <!-- Products will be loaded here by JavaScript -->
         </div>
     </section>
 
     <footer>
-        <p>Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
+        <p>✨ Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
     </footer>
 </body>
 </html>
