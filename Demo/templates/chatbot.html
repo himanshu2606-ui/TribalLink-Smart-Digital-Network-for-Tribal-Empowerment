@@ -31,6 +31,17 @@
     <section style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 40px 20px; text-align: center;">
         <h1 class="display-5 fw-bold">🌾 AgriHelp Bot</h1>
         <p class="lead">Your AI Assistant for Tribal Farming & Products</p>
+        <!-- Language Selector -->
+        <div style="margin-top: 20px;">
+            <p class="mb-2" style="font-size: 0.9em;">🌐 Choose Language / भाषा चुनें:</p>
+            <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                <button class="lang-btn" data-lang="en" style="padding: 6px 14px; background: white; color: #4CAF50; border: none; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s;">English</button>
+                <button class="lang-btn" data-lang="hi" style="padding: 6px 14px; background: rgba(255,255,255,0.3); color: white; border: 1px solid white; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s;">हिंदी</button>
+                <button class="lang-btn" data-lang="san" style="padding: 6px 14px; background: rgba(255,255,255,0.3); color: white; border: 1px solid white; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s;">संथाली</button>
+                <button class="lang-btn" data-lang="mun" style="padding: 6px 14px; background: rgba(255,255,255,0.3); color: white; border: 1px solid white; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Mundari</button>
+                <button class="lang-btn" data-lang="ho" style="padding: 6px 14px; background: rgba(255,255,255,0.3); color: white; border: 1px solid white; border-radius: 20px; cursor: pointer; font-weight: 600; transition: all 0.3s;">Ho</button>
+            </div>
+        </div>
     </section>
 
     <div class="container my-5">
@@ -105,6 +116,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='app.js') }}"></script>
     <script>
+        let currentLanguage = 'en';
+
+        // Language button handling
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentLanguage = this.getAttribute('data-lang');
+                
+                // Update button styles
+                document.querySelectorAll('.lang-btn').forEach(b => {
+                    b.style.background = 'rgba(255,255,255,0.3)';
+                    b.style.color = 'white';
+                    b.style.border = '1px solid white';
+                });
+                this.style.background = 'white';
+                this.style.color = '#4CAF50';
+                this.style.border = 'none';
+                
+                // Clear chat and show language welcome
+                document.getElementById('chat-box').innerHTML = `
+                    <div style="margin-bottom: 15px;">
+                        <div style="background: white; padding: 12px 15px; border-radius: 15px; max-width: 80%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <p class="mb-0"><strong style="color: #4CAF50;">AgriHelp Bot</strong></p>
+                            <p class="mb-0 mt-2">
+                                ${currentLanguage === 'en' ? '👋 Language changed to English!' : ''}
+                                ${currentLanguage === 'hi' ? '👋 भाषा हिंदी में बदल गई है!' : ''}
+                                ${currentLanguage === 'san' ? '👋 भाषा संथाली में बदल गई है!' : ''}
+                                ${currentLanguage === 'mun' ? '👋 भाषा Mundari में बदल गई है!' : ''}
+                                ${currentLanguage === 'ho' ? '👋 Language changed to Ho!' : ''}
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                // Store in session
+                sessionStorage.setItem('chatLanguage', currentLanguage);
+            });
+        });
+
+        // Load saved language on page load
+        window.addEventListener('load', function() {
+            const savedLang = sessionStorage.getItem('chatLanguage') || 'en';
+            currentLanguage = savedLang;
+            const langBtn = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (langBtn) {
+                langBtn.click();
+            }
+        });
+
         function sendMessage() {
             var userInput = document.getElementById("user-input");
             var message = userInput.value.trim();
@@ -130,18 +189,18 @@
             var loadingMsg = document.createElement("div");
             loadingMsg.innerHTML = `<div style="background: white; padding: 12px 15px; border-radius: 15px; max-width: 80%; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                         <p class="mb-0"><strong style="color: #4CAF50;">AgriHelp Bot</strong></p>
-                                        <p class="mb-0 mt-2"><em>Typing...</em></p>
+                                        <p class="mb-0 mt-2"><em>${currentLanguage === 'en' ? 'Typing...' : currentLanguage === 'hi' ? 'टाइप कर रहे हैं...' : 'Typing...'}</em></p>
                                     </div>`;
             loadingMsg.id = "loading-msg";
             loadingMsg.style.marginBottom = "15px";
             chatBox.appendChild(loadingMsg);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Send to backend API
+            // Send to backend API with language info
             fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: message })
+                body: JSON.stringify({ message: message, language: currentLanguage })
             })
             .then(response => response.json())
             .then(data => {

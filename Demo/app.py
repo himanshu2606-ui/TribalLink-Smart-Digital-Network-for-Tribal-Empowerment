@@ -328,7 +328,7 @@ def contact_submit():
         logger.error(f"Error in contact form: {e}")
         return jsonify({"success": False, "error": str(e)}), 500
 
-# API route for chatbot response with better logic
+# API route for chatbot response with multi-language support
 @app.route('/api/chat', methods=['POST'])
 def get_response():
     try:
@@ -337,13 +337,18 @@ def get_response():
             return jsonify({"success": False, "error": "No message provided"}), 400
         
         user_input = data.get("message", "").strip().lower()
+        language = data.get("language", "en")
         
         if not user_input:
             return jsonify({"success": False, "error": "Message cannot be empty"}), 400
         
-        logger.info(f"Chat message received: {user_input}")
+        # Store language in session
+        session['language'] = language
+        session.modified = True
         
-        # Enhanced chatbot logic
+        logger.info(f"Chat message received [{language}]: {user_input}")
+        
+        # Enhanced multi-language chatbot logic
         response = process_chat_input(user_input)
         
         return jsonify({"success": True, "response": response})
@@ -352,95 +357,161 @@ def get_response():
         return jsonify({"success": False, "error": "Server error"}), 500
 
 def process_chat_input(user_input):
-    """Process user input and return appropriate response with context-aware answers"""
+    """Process user input with multi-language support (English, Hindi, Santhali, Mundari, Ho)"""
     
-    # Extended knowledge base with tribal context
+    # Multi-language knowledge base
     knowledge_base = {
-        # Farming & Agriculture
-        "farming agriculture paddy rice wheat grain cultivation": (
-            "🌾 **Farming Tips**: Paddy (rice) grows best in wetland areas. "
-            "Use organic fertilizers like compost and neem cake. "
-            "Best planting season: May-June. Water management is crucial. "
-            "Avoid chemical pesticides - use natural pest control methods."
-        ),
-        "bamboo crop sustainable farming harvest": (
-            "🎋 **Bamboo Farming**: Bamboo grows quickly (3-5 years) and is highly sustainable. "
-            "It prevents soil erosion and requires minimal pesticides. "
-            "Ideal for tribal communities - low cost, high return. "
-            "Can be harvested multiple times from same plant."
-        ),
-        "turmeric spice organic health benefits": (
-            "🌿 **Turmeric Benefits**: Our organic turmeric is rich in curcumin (anti-inflammatory). "
-            "Used in traditional tribal medicine for centuries. "
-            "Perfect for cooking, health supplements, and beauty products. "
-            "₹180 for 500g, no additives or preservatives."
-        ),
-        
-        # Product Information
-        "marketplace product tribal crafts jewelry furniture": (
-            "🛍️ **Our Marketplace**: We have 8+ authentic tribal products: "
-            "Handwoven baskets, beaded jewelry, clay pottery, organic rice, bamboo furniture, woven carpets, silver bracelets, and turmeric. "
-            "All made by tribal artisans from Jharkhand, Chhattisgarh, Odisha, and other regions. "
-            "Fair prices, 100% authentic, direct from makers."
-        ),
-        "price cost rupees payment checkout cart": (
-            "💰 **Pricing**: Our products range from ₹150 (rice) to ₹2500 (furniture). "
-            "Browse the Marketplace to see all prices. "
-            "Add items to cart and proceed to checkout. "
-            "We accept all payment methods including UPI, cards, and wallets."
-        ),
-        
-        # Government Schemes & Support
-        "government scheme tribal assistance benefits welfare": (
-            "📋 **Government Support**: Many schemes exist for tribal communities: "
-            "1. Pradhan Mantri Jati Adharsh Gram Yojana - ₹50 lakh per village "
-            "2. National Tribal Fellowship - for higher education "
-            "3. Mukhyamantri Gram Samriddhi Yojana - village development "
-            "Contact your local Gram Panchayat or block office for applications."
-        ),
-        "skill development training education learning program": (
-            "📚 **Skill Development**: TribalLink connects you with: "
-            "- Digital literacy programs (free online courses) "
-            "- Handicraft training from expert artisans "
-            "- Agricultural techniques workshops "
-            "- E-commerce & marketing skills "
-            "Ask us for specific training programs in your area!"
-        ),
-        
-        # Support & Help
-        "help support problem issue complaint": (
-            "🆘 **Need Help?** We're here! "
-            "- Marketplace issues? Check FAQ or contact support "
-            "- Product quality concerns? 30-day money-back guarantee "
-            "- Chatbot questions? Type specific keywords "
-            "- Emergency support? Call or email through Contact page"
-        ),
-        "hello hi greet welcome": (
-            "👋 **Welcome to TribalLink!** "
-            "I'm AgriHelp Bot, your AI assistant for tribal empowerment. "
-            "I can help with: farming tips, product info, government schemes, and more. "
-            "What would you like to know?"
-        ),
+        'en': {
+            # Farming & Agriculture
+            "farming agriculture paddy rice wheat grain cultivation": (
+                "🌾 **Farming Tips**: Paddy (rice) grows best in wetland areas. "
+                "Use organic fertilizers like compost and neem cake. "
+                "Best planting season: May-June. Water management is crucial. "
+                "Avoid chemical pesticides - use natural pest control methods."
+            ),
+            "bamboo crop sustainable farming harvest": (
+                "🎋 **Bamboo Farming**: Bamboo grows quickly (3-5 years) and is highly sustainable. "
+                "It prevents soil erosion and requires minimal pesticides. "
+                "Ideal for tribal communities - low cost, high return. "
+                "Can be harvested multiple times from same plant."
+            ),
+            "turmeric spice organic health benefits": (
+                "🌿 **Turmeric Benefits**: Our organic turmeric is rich in curcumin (anti-inflammatory). "
+                "Used in traditional tribal medicine for centuries. "
+                "Perfect for cooking, health supplements, and beauty products. "
+                "₹180 for 500g, no additives or preservatives."
+            ),
+            "marketplace product tribal crafts jewelry furniture": (
+                "🛍️ **Our Marketplace**: We have 8+ authentic tribal products: "
+                "Handwoven baskets, beaded jewelry, clay pottery, organic rice, bamboo furniture, woven carpets, silver bracelets, and turmeric. "
+                "All made by tribal artisans from Jharkhand, Chhattisgarh, Odisha, and other regions. "
+                "Fair prices, 100% authentic, direct from makers."
+            ),
+            "price cost rupees payment checkout cart": (
+                "💰 **Pricing**: Our products range from ₹150 (rice) to ₹2500 (furniture). "
+                "Browse the Marketplace to see all prices. Add to cart and checkout. "
+                "We accept UPI, cards, and wallets."
+            ),
+            "government scheme tribal assistance benefits welfare": (
+                "📋 **Government Support**: Schemes for tribal communities: "
+                "1. PM Jati Adharsh Gram - ₹50 lakh per village "
+                "2. National Tribal Fellowship - higher education "
+                "3. Gram Samriddhi Yojana - village development "
+                "Contact your local Gram Panchayat."
+            ),
+            "skill development training education learning program": (
+                "📚 **Skill Training**: TribalLink offers: Digital literacy, Handicraft training, "
+                "Agricultural workshops, E-commerce & marketing skills. "
+                "Ask for programs in your area!"
+            ),
+            "hello hi greet welcome": (
+                "👋 **Welcome to TribalLink!** I'm AgriHelp Bot. "
+                "I can help with farming, products, schemes, and training. What would you like?"
+            ),
+        },
+        'hi': {
+            "farming agriculture paddy rice wheat grain cultivation": (
+                "🌾 **खेती सुझाव**: धान (चावल) गीली भूमि में अच्छी तरह उगता है। "
+                "खाद और नीम केक का उपयोग करें। बुवाई का मौसम मई-जून है। "
+                "पानी का प्रबंधन महत्वपूर्ण है। रासायनिक कीटनाशकों से बचें।"
+            ),
+            "bamboo crop sustainable farming harvest": (
+                "🎋 **बांस की खेती**: बांस 3-5 साल में तेजी से बढ़ता है। "
+                "यह मिट्टी के कटाव को रोकता है और कम कीटनाशकों की जरूरत है। "
+                "आदिवासी समुदायों के लिए कम लागत, अधिक लाभ। "
+                "एक ही पौधे से कई बार कटाई की जा सकती है।"
+            ),
+            "turmeric spice organic health benefits": (
+                "🌿 **हल्दी के लाभ**: हमारी जैविक हल्दी करक्यूमिन से भरपूर है। "
+                "सदियों से आदिवासी चिकित्सा में प्रयुक्त होती है। "
+                "खाना पकाने, स्वास्थ्य और सौंदर्य के लिए बेहतरीन। "
+                "500ग्राम ₹180, कोई योगज नहीं।"
+            ),
+            "hello hi greet welcome": (
+                "👋 **TribalLink में आपका स्वागत है!** मैं AgriHelp बॉट हूं। "
+                "मैं खेती, उत्पाद, योजनाओं और प्रशिक्षण में मदद कर सकता हूं। "
+                "आप क्या जानना चाहते हैं?"
+            ),
+        },
+        'san': {
+            "farming agriculture paddy rice wheat grain cultivation": (
+                "� **खेती के सुझाव**: धान जलभूमि में अच्छी तरह उगता है। "
+                "खाद का उपयोग करें। कीटनाशकों से बचें। मई-जून बुवाई का समय है।"
+            ),
+            "hello hi greet welcome": (
+                "👋 **TribalLink में आपका स्वागत है!** मैं आपकी मदद कर सकता हूं। "
+                "खेती, पणय, योजना के बारे में पूछें।"
+            ),
+        },
+        'mun': {
+            "farming agriculture paddy rice wheat grain cultivation": (
+                "🌾 **खेती**: धान गीली जमीन में अच्छी तरह बढ़ता है। "
+                "खाद डालब, जहर मत डालब। मई-जून में बुवाई करब।"
+            ),
+            "hello hi greet welcome": (
+                "👋 **TribalLink में आपका स्वागत!** मैं आपकी मदद कर सकता हूं। "
+                "खेती, सामान के बारे में पूछें।"
+            ),
+        },
+        'ho': {
+            "farming agriculture paddy rice wheat grain cultivation": (
+                "🌾 **Farming**: Rice grows well in wet land. Use compost. "
+                "No poison. Plant in May-June."
+            ),
+            "hello hi greet welcome": (
+                "👋 **Welcome to TribalLink!** I can help you. "
+                "Ask about farming, products, schemes."
+            ),
+        }
     }
     
-    # Search for matching topics
+    # Detect language from session or default to English
+    detected_lang = session.get('language', 'en')
     user_lower = user_input.lower()
     
-    for keywords, response in knowledge_base.items():
+    # Check if user is asking in a specific language (simple detection)
+    hindi_keywords = ['कैसे', 'क्या', 'किसे', 'कहां', 'कब']
+    if any(keyword in user_input for keyword in hindi_keywords):
+        detected_lang = 'hi'
+        session['language'] = 'hi'
+    
+    # Search for matching topics in detected language
+    lang_kb = knowledge_base.get(detected_lang, knowledge_base['en'])
+    
+    for keywords, response in lang_kb.items():
         if any(keyword in user_lower for keyword in keywords.split()):
             return response
     
-    # Fallback responses
-    return (
-        "ℹ️ **I can help you with**: "
-        "🌾 Farming & agriculture tips, "
-        "🛍️ Tribal products & marketplace, "
-        "💰 Payment & checkout help, "
-        "📚 Skill development programs, "
-        "📋 Government schemes, "
-        "🆘 Support & complaints. "
-        "\nTry asking: 'How to grow rice?', 'Tell me about products', 'What schemes exist?'"
-    )
+    # Multi-language fallback responses
+    fallbacks = {
+        'en': (
+            "ℹ️ **I can help with**: 🌾 Farming tips, 🛍️ Products, "
+            "💰 Payment, 📚 Training, 📋 Schemes, 🆘 Support\n"
+            "Try: 'How to grow rice?', 'Tell about products', 'What schemes?'"
+        ),
+        'hi': (
+            "ℹ️ **मैं मदद कर सकता हूं**: 🌾 खेती, 🛍️ उत्पाद, "
+            "💰 भुगतान, 📚 प्रशिक्षण, 📋 योजनाएं, 🆘 समर्थन\n"
+            "पूछें: 'धान कैसे उगाएं?', 'उत्पाद बताएं', 'कौन सी योजनाएं?'"
+        ),
+        'san': (
+            "ℹ️ **मैं मदद कर सकता हूं**: 🌾 खेती, 🛍️ पणय, "
+            "� भुगतान, �📚 प्रशिक्षण, 📋 योजना\n"
+            "पूछें: खेती, पणय, योजना के बारे में।"
+        ),
+        'mun': (
+            "ℹ️ **मैं मदद कर सकता हूं**: 🌾 खेती, 🛍️ सामान, "
+            "� भुगतान, 📚 सीखब, �📋 योजना\n"
+            "पूछब: खेती, सामान, योजना।"
+        ),
+        'ho': (
+            "ℹ️ **I can help**: 🌾 Farming, 🛍️ Products, "
+            "💰 Payment, 📚 Training, 📋 Schemes\n"
+            "Ask: about farming, products, schemes."
+        )
+    }
+    
+    return fallbacks.get(detected_lang, fallbacks['en'])
 
 # Health check endpoint
 @app.route('/health', methods=['GET'])
