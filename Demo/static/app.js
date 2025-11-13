@@ -1,7 +1,117 @@
 // Frontend JS by Himanshu Choudhary
 // Team TechTribe - Pemiya Rishikesh Institute of Technology
 
-// Chatbot functionality
+// ===== UTILITY FUNCTION =====
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+// ===== CART MANAGEMENT =====
+
+/**
+ * Update cart count badge on navbar
+ */
+function updateCartCount() {
+    fetch('/api/cart')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var items = data.items || [];
+            var count = items.length;
+            var badge = document.getElementById('cart-count');
+            if (badge) {
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'inline-block' : 'none';
+            }
+        }
+    })
+    .catch(error => console.error("Error updating cart count:", error));
+}
+
+/**
+ * Add product to cart (with server-side session storage)
+ */
+function addToCartQuick(productId, productName, price) {
+    fetch('/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            product_id: productId, 
+            name: productName, 
+            price: price,
+            quantity: 1 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(`✓ "${productName}" added to cart!`);
+            updateCartCount();
+        } else {
+            alert("Error adding to cart: " + data.error);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Connection error. Please try again.");
+    });
+}
+
+/**
+ * Remove item from cart
+ */
+function removeFromCart(productId) {
+    fetch('/api/cart', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product_id: productId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Item removed from cart");
+            location.reload(); // Refresh cart page
+        } else {
+            alert("Error removing item");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+}
+
+/**
+ * Load order summary (for checkout page)
+ */
+function loadOrderSummary() {
+    fetch('/api/cart')
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            var items = data.items || [];
+            var subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            var shipping = 50;
+            var total = subtotal + shipping;
+
+            // Update summary elements if they exist
+            var subtotalEl = document.getElementById('order-subtotal');
+            var shippingEl = document.getElementById('order-shipping');
+            var totalEl = document.getElementById('order-total');
+
+            if (subtotalEl) subtotalEl.textContent = '₹' + subtotal.toFixed(2);
+            if (shippingEl) shippingEl.textContent = '₹' + shipping;
+            if (totalEl) totalEl.textContent = '₹' + total.toFixed(2);
+        }
+    })
+    .catch(error => console.error("Error loading order summary:", error));
+}
+
+// ===== CHATBOT FUNCTIONALITY =====
 function sendMessage() {
     var userInput = document.getElementById("user-input");
     var message = userInput.value.trim();
@@ -45,7 +155,7 @@ function sendMessage() {
 
         if (data.success) {
             var botMsg = document.createElement("p");
-            botMsg.innerHTML = "<strong>Bot:</strong> " + escapeHtml(data.response);
+            botMsg.innerHTML = "<strong>Bot:</strong> " + data.response.replace(/\n/g, '<br>');
             botMsg.style.color = "#333";
             chatBox.appendChild(botMsg);
         } else {
@@ -86,6 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ===== MARKETPLACE FUNCTIONS =====
+
 // Load products in marketplace
 function loadProducts(category = null) {
     var url = '/api/products';
@@ -123,33 +235,19 @@ function displayProducts(products) {
             <h3>${escapeHtml(product.name)}</h3>
             <p class="price">₹${product.price}</p>
             <p class="category">${escapeHtml(product.category)}</p>
-            <button onclick="addToCart('${product.id}', '${escapeHtml(product.name)}', ${product.price})">Add to Cart</button>
+            <button onclick="addToCartQuick('${product.id}', '${escapeHtml(product.name)}', ${product.price})">Add to Cart</button>
         `;
         productsContainer.appendChild(card);
     });
 }
 
-// Simple cart functionality
-function addToCart(productId, productName, price) {
-    alert(`✓ "${productName}" added to cart! (₹${price})`);
-    console.log(`Added product: ${productName}`);
-}
-
-// Utility function to escape HTML and prevent XSS
-function escapeHtml(text) {
-    var map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
+// ===== PAGE INITIALIZATION =====
 
 // Load products on marketplace page
 window.addEventListener('load', function() {
     if (document.querySelector('.products')) {
         loadProducts();
     }
+    // Update cart count on every page load
+    updateCartCount();
 });

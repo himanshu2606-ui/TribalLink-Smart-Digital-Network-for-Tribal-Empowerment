@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About TribalLink</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="/" style="font-size: 1.5em;">
+                <i class="fas fa-leaf"></i> TribalLink
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">🏠 Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/marketplace">🛍️ Marketplace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/chatbot">🤖 AgriHelp Bot</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/about">ℹ️ About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">📧 Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Cart <span class="badge bg-danger" id="cart-count">0</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 60px 20px; text-align: center;">
+        <h1 class="display-4 fw-bold">About TribalLink</h1>
+        <p class="lead">Our Mission: Empowering Tribal Communities Through Digital Innovation</p>
+    </section>
+
+    <div class="container my-5">
+        <!-- Mission -->
+        <section class="mb-5" data-aos="fade-up">
+            <h2 class="mb-4" style="color: #4CAF50; font-weight: bold;"><i class="fas fa-bullseye"></i> Our Mission</h2>
+            <p style="font-size: 1.1em; line-height: 1.8;">
+                TribalLink is dedicated to bridging the digital divide and empowering tribal communities through technology. 
+                We believe that tribal artisans, farmers, and entrepreneurs deserve equal access to markets, knowledge, and opportunities. 
+                Our platform connects communities with buyers, provides AI-powered guidance, and promotes sustainable development while preserving tribal culture and traditions.
+            </p>
+        </section>
+
+        <!-- Vision -->
+        <section class="mb-5" data-aos="fade-up">
+            <h2 class="mb-4" style="color: #4CAF50; font-weight: bold;"><i class="fas fa-lightbulb"></i> Our Vision</h2>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #4CAF50;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Economic Empowerment</h5>
+                            <p>Enable tribal artisans to earn sustainable income through fair-trade marketplace access.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #4CAF50;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Digital Inclusion</h5>
+                            <p>Provide easy-to-use technology that doesn't require advanced digital literacy.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #4CAF50;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Knowledge Sharing</h5>
+                            <p>Connect communities with farming guidance, skill development, and government schemes.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm" style="border-left: 4px solid #4CAF50;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Cultural Preservation</h5>
+                            <p>Celebrate and preserve tribal culture while connecting it to modern markets.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team -->
+        <section class="mb-5" data-aos="fade-up">
+            <h2 class="mb-5 text-center" style="color: #4CAF50; font-weight: bold;"><i class="fas fa-users"></i> Meet Our Team</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 text-center">
+                    <div class="card shadow-sm border-0">
+                        <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); padding: 40px; color: white;">
+                            <i class="fas fa-user-circle" style="font-size: 4em;"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="fw-bold">Himanshu Choudhary</h5>
+                            <p class="text-muted">Project Lead & Backend Developer</p>
+                            <small>Architecture, APIs, Optimization</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 text-center">
+                    <div class="card shadow-sm border-0">
+                        <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); padding: 40px; color: white;">
+                            <i class="fas fa-user-circle" style="font-size: 4em;"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="fw-bold">Shekhar Kumar</h5>
+                            <p class="text-muted">UI/UX Designer</p>
+                            <small>Frontend Design, User Experience</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 text-center">
+                    <div class="card shadow-sm border-0">
+                        <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); padding: 40px; color: white;">
+                            <i class="fas fa-user-circle" style="font-size: 4em;"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="fw-bold">Ayush Mandal</h5>
+                            <p class="text-muted">QA & Documentation</p>
+                            <small>Testing, Quality Assurance</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact -->
+        <section class="mb-5" data-aos="fade-up">
+            <h2 class="mb-4" style="color: #4CAF50; font-weight: bold;"><i class="fas fa-star"></i> Our Impact</h2>
+            <div class="row text-center">
+                <div class="col-md-3 mb-3">
+                    <h3 class="text-success fw-bold">100+</h3>
+                    <p>Tribal Artisans Connected</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h3 class="text-success fw-bold">8+</h3>
+                    <p>Product Categories</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h3 class="text-success fw-bold">₹50K+</h3>
+                    <p>Monthly Sales Generated</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h3 class="text-success fw-bold">5x</h3>
+                    <p>Average Income Increase</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology -->
+        <section data-aos="fade-up">
+            <h2 class="mb-4" style="color: #4CAF50; font-weight: bold;"><i class="fas fa-code"></i> Technology Stack</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="fw-bold mb-3">Frontend</h5>
+                    <ul class="list-unstyled">
+                        <li>✓ HTML5, CSS3, JavaScript</li>
+                        <li>✓ Bootstrap 5 - Responsive Design</li>
+                        <li>✓ AOS Library - Smooth Animations</li>
+                        <li>✓ Mobile-First Approach</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="fw-bold mb-3">Backend</h5>
+                    <ul class="list-unstyled">
+                        <li>✓ Python Flask Web Framework</li>
+                        <li>✓ RESTful APIs</li>
+                        <li>✓ Session-Based Cart Management</li>
+                        <li>✓ CORS Support</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CTA -->
+    <section class="py-5 my-5" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; text-align: center;">
+        <div class="container">
+            <h2 class="mb-4">Join the TribalLink Movement</h2>
+            <p class="mb-4" style="font-size: 1.1em;">Help us empower tribal communities. Shop, support, and share.</p>
+            <a href="/marketplace" class="btn btn-light btn-lg px-5 fw-bold">Explore Marketplace</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container text-center text-muted">
+            <p>&copy; 2025 TribalLink. All rights reserved. | Team TechTribe - Pemiya Rishikesh Institute of Technology</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        updateCartCount();
+    </script>
+</body>
+</html>

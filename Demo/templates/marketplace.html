@@ -4,50 +4,145 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TribalLink - Marketplace</title>
-
-    <!-- CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
-    <!-- JS -->
-    <script src="{{ url_for('static', filename='app.js') }}" defer></script>
 </head>
-
 <body>
-    <!-- Frontend by Himanshu Choudhary -->
-    <!-- Team TechTribe - Pemiya Rishikesh Institute of Technology -->
-
-    <header>
-        <h1>🛍️ TribalLink Marketplace</h1>
-        <p>Authentic Tribal Products & Crafts</p>
-        <!-- Flask dynamic links -->
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('home') }}">🏠 Home</a></li>
-                <li><a href="{{ url_for('marketplace') }}">🛍️ Marketplace</a></li>
-                <li><a href="{{ url_for('chatbot') }}">🤖 AgriHelp Bot</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section>
-        <h2>📦 Featured Products</h2>
-        
-        <div style="margin-bottom: 20px; text-align: center;">
-            <button onclick="loadProducts()" style="margin: 5px;">All Products</button>
-            <button onclick="loadProducts('Crafts')" style="margin: 5px;">🎨 Crafts</button>
-            <button onclick="loadProducts('Jewelry')" style="margin: 5px;">💍 Jewelry</button>
-            <button onclick="loadProducts('Pottery')" style="margin: 5px;">🏺 Pottery</button>
-            <button onclick="loadProducts('Agriculture')" style="margin: 5px;">🌾 Agriculture</button>
-            <button onclick="loadProducts('Furniture')" style="margin: 5px;">🪑 Furniture</button>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="/" style="font-size: 1.5em;"><i class="fas fa-leaf"></i> TribalLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">🏠 Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/marketplace">🛍️ Marketplace</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/chatbot">🤖 AgriHelp Bot</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">ℹ️ About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">📧 Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart"><i class="fas fa-shopping-cart"></i> Cart <span class="badge bg-danger" id="cart-count">0</span></a></li>
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <div class="products">
-            <!-- Products will be loaded here by JavaScript -->
-        </div>
+    <!-- Hero -->
+    <section style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 50px 20px; text-align: center;">
+        <h1 class="display-4 fw-bold">�️ Tribal Marketplace</h1>
+        <p class="lead">Authentic Products Directly from Tribal Artisans</p>
     </section>
 
-    <footer>
-        <p>✨ Developed by Team TechTribe – Pemiya Rishikesh Institute of Technology</p>
+    <div class="container my-5">
+        <!-- Filters -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h5 class="fw-bold mb-3" style="color: #4CAF50;">Filter by Category</h5>
+                <div class="btn-group flex-wrap" role="group">
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts()">
+                        <i class="fas fa-th"></i> All Products
+                    </button>
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts('Crafts')">🎨 Crafts</button>
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts('Jewelry')">💍 Jewelry</button>
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts('Pottery')">🏺 Pottery</button>
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts('Agriculture')">🌾 Agriculture</button>
+                    <button type="button" class="btn btn-outline-success" onclick="loadProducts('Furniture')">🪑 Furniture</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsContainer" class="row g-4"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container text-center text-muted">
+            <p>&copy; 2025 TribalLink. All rights reserved. | Team TechTribe</p>
+        </div>
     </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        async function loadProducts(category = null) {
+            try {
+                let url = '/api/products';
+                if (category) url += '?category=' + encodeURIComponent(category);
+
+                const response = await fetch(url);
+                const data = await response.json();
+                const products = data.products || [];
+                const container = document.getElementById('productsContainer');
+                
+                container.innerHTML = '';
+                
+                products.forEach((product, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'col-md-6 col-lg-4';
+                    card.setAttribute('data-aos', 'fade-up');
+                    card.setAttribute('data-aos-delay', (index * 100).toString());
+                    
+                    card.innerHTML = `
+                        <div class="card h-100 shadow-sm product-card border-0" style="border-top: 4px solid #4CAF50; transition: all 0.3s ease;">
+                            <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); padding: 40px; text-align: center; font-size: 3em;">
+                                ${product.image}
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title fw-bold text-truncate">${product.name}</h6>
+                                <p class="text-muted small">${product.artisan} • ${product.location}</p>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-warning">⭐ ${product.rating} (${product.reviews})</span>
+                                    <span class="badge bg-success">${product.category}</span>
+                                </div>
+                                <p class="text-success fw-bold" style="font-size: 1.3em;">₹${product.price}</p>
+                                <p class="small text-muted">${product.description}</p>
+                            </div>
+                            <div class="card-footer bg-white border-top">
+                                <div class="d-grid gap-2">
+                                    <a href="/product/${product.id}" class="btn btn-outline-success btn-sm">
+                                        <i class="fas fa-eye"></i> View Details
+                                    </a>
+                                    <button class="btn btn-success btn-sm fw-bold" onclick="addToCartQuick(${product.id}, '${product.name}', ${product.price})">
+                                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+                
+                AOS.refresh();
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        async function addToCartQuick(productId, productName, price) {
+            try {
+                const response = await fetch('/api/cart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ product_id: productId, quantity: 1 })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    updateCartCount();
+                    alert(`✓ "${productName}" added to cart!`);
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+            }
+        }
+
+        AOS.init({ duration: 1000, once: true });
+        loadProducts();
+        updateCartCount();
+    </script>
 </body>
 </html>
